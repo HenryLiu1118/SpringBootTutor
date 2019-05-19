@@ -8,10 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,4 +40,35 @@ public class CourseController {
 
         return new ResponseEntity(findedCourse, HttpStatus.OK);
     }
+
+    @PostMapping(path = "/create/{inputString}", produces = "application/json")
+    public HttpEntity<Course> CreateCourse(@PathVariable("inputString") String inputString) {
+
+        courseService.addCourse(inputString);
+
+        List<Course> allCourses = courseService.findAllCourses();
+
+        return new ResponseEntity(allCourses,HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/update", produces = "application/json")
+    public HttpEntity<Course> updateCourse() {
+
+        courseService.updateCourse();
+
+        List<Course> allCourses = courseService.findAllCourses();
+
+        return new ResponseEntity(allCourses,HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/delete/{inputString}", produces = "application/json")
+    public HttpEntity<Course> deleteCourse(@PathVariable("inputString") String inputString) {
+
+        courseService.deleteCourse(inputString);
+
+        List<Course> allCourses = courseService.findAllCourses();
+
+        return new ResponseEntity(allCourses,HttpStatus.OK);
+    }
+
 }
